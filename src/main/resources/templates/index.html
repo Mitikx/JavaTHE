@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique de Thés - Liste des produits</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" th:href="@{/index.css}" href="/index.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="header-section">
+        <div class="container">
+            <h1 class="mb-0"><i class="bi bi-cup-hot-fill"></i> Boutique de Thés</h1>
+            <p class="mb-0">Gestion des produits</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        
+        <!-- Messages flash de succès/erreur -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="get" action="/" class="row g-3">
+                    <div class="col-md-5">
+                        <label for="search" class="form-label"><i class="bi bi-search"></i> Rechercher par nom</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="search" 
+                               name="search" 
+                               th:value="${search}"
+                               placeholder="Ex: Sencha, Dragon...">
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label for="typeThe" class="form-label"><i class="bi bi-filter"></i> Filtrer par type</label>
+                        <select class="form-select" id="typeThe" name="typeThe">
+                            <option value="">Tous les types</option>
+                            <option value="Vert" th:selected="${typeThe == 'Vert'}">Vert</option>
+                            <option value="Noir" th:selected="${typeThe == 'Noir'}">Noir</option>
+                            <option value="Oolong" th:selected="${typeThe == 'Oolong'}">Oolong</option>
+                            <option value="Blanc" th:selected="${typeThe == 'Blanc'}">Blanc</option>
+                            <option value="Pu-erh" th:selected="${typeThe == 'Pu-erh'}">Pu-erh</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-funnel-fill"></i> Appliquer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <a href="/nouveau" class="btn btn-success btn-lg">
+                <i class="bi bi-plus-circle"></i> Ajouter un thé
+            </a>
+        </div>
+
+        <div th:if="${#lists.isEmpty(produits)}" class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Aucun produit trouvé.
+        </div>
+
+        <div th:unless="${#lists.isEmpty(produits)}" class="table-container">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th class="sortable-header" onclick="sortBy('nom')">
+                                <i class="bi bi-sort-alpha-down"></i> Nom
+                            </th>
+                            <th>Type</th>
+                            <th>Origine</th>
+                            <th class="sortable-header" onclick="sortBy('prix')">
+                                <i class="bi bi-sort-numeric-down"></i> Prix
+                            </th>
+                            <th class="sortable-header" onclick="sortBy('quantiteStock')">
+                                <i class="bi bi-sort-numeric-down"></i> Quantité
+                            </th>
+                            <th>Description</th>
+                            <th class="sortable-header" onclick="sortBy('dateReception')">
+                                <i class="bi bi-calendar"></i> Date réception
+                            </th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="produit : ${produits}">
+                            <td th:text="${produit.id}">1</td>
+                            <td>
+                                <strong th:text="${produit.nom}">Sencha Premium</strong>
+                            </td>
+                            <td>
+                                <span class="badge bg-success" th:if="${produit.typeThe == 'Vert'}" th:text="${produit.typeThe}">Vert</span>
+                                <span class="badge bg-danger" th:if="${produit.typeThe == 'Noir'}" th:text="${produit.typeThe}">Noir</span>
+                                <span class="badge bg-warning text-dark" th:if="${produit.typeThe == 'Oolong'}" th:text="${produit.typeThe}">Oolong</span>
+                                <span class="badge bg-light text-dark" th:if="${produit.typeThe == 'Blanc'}" th:text="${produit.typeThe}">Blanc</span>
+                                <span class="badge bg-dark" th:if="${produit.typeThe == 'Pu-erh'}" th:text="${produit.typeThe}">Pu-erh</span>
+                            </td>
+                            <td th:text="${produit.origine}">Japon</td>
+                            <td>
+                                <strong class="text-primary" th:text="${#numbers.formatDecimal(produit.prix, 1, 2)} + ' €'">25.00 €</strong>
+                            </td>
+                            <td>
+                                <span class="badge bg-info" th:text="${produit.quantiteStock}">50</span>
+                            </td>
+                            <td>
+                                <small th:text="${#strings.abbreviate(produit.description, 50)}">Description courte...</small>
+                            </td>
+                            <td th:text="${#temporals.format(produit.dateReception, 'dd/MM/yyyy')}">21/01/2026</td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a th:href="@{/modifier/{id}(id=${produit.id})}" 
+                                       class="btn btn-outline-primary"
+                                       title="Modifier">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <form th:action="@{/supprimer/{id}(id=${produit.id})}" 
+                                          method="post" 
+                                          style="display: inline;"
+                                          th:data-produit-nom="${produit.nom}"
+                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ' + this.dataset.produitNom + ' ?');">
+                                        <button type="submit" 
+                                                class="btn btn-outline-danger" 
+                                                title="Supprimer">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="text-muted mt-3">
+                <i class="bi bi-info-circle"></i> 
+                Total : <strong th:text="${#lists.size(produits)}">0</strong> produit(s)
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script th:inline="javascript">
+        function sortBy(column) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('sort', column);
+            window.location.search = urlParams.toString();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${produit.id != null ? 'Modifier un thé' : 'Ajouter un thé'}">Formulaire Produit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/formulaire.css}" href="/formulaire.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+    <div class="header-section">
+        <div class="container">
+            <h1 class="mb-0">
+                <i class="bi bi-cup-hot-fill"></i> 
+                <span th:text="${produit.id != null ? 'Modifier un thé' : 'Ajouter un thé'}">Formulaire</span>
+            </h1>
+            <p class="mb-0">Remplissez les informations du produit</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="form-container">
+            <form th:action="@{${produit.id != null ? '/modifier/' + produit.id : '/enregistrer'}}" 
+                  method="post" 
+                  th:object="${produit}"
+                  novalidate>
+
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="mb-3">
+                    <label for="nom" class="form-label">
+                        <i class="bi bi-cup"></i> Nom du thé <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" 
+                           class="form-control" 
+                           th:classappend="${#fields.hasErrors('nom')} ? 'is-invalid' : ''"
+                           id="nom" 
+                           th:field="*{nom}"
+                           placeholder="Ex: Sencha Premium, Dragon Well..."
+                           required>
+                    <div class="error-message" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}">
+                        Erreur nom
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="typeThe" class="form-label">
+                        <i class="bi bi-tag-fill"></i> Type de thé <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select" 
+                            th:classappend="${#fields.hasErrors('typeThe')} ? 'is-invalid' : ''"
+                            id="typeThe" 
+                            th:field="*{typeThe}"
+                            required>
+                        <option value="">-- Choisir un type --</option>
+                        <option value="Vert">Vert</option>
+                        <option value="Noir">Noir</option>
+                        <option value="Oolong">Oolong</option>
+                        <option value="Blanc">Blanc</option>
+                        <option value="Pu-erh">Pu-erh</option>
+                    </select>
+                    <div class="error-message" th:if="${#fields.hasErrors('typeThe')}" th:errors="*{typeThe}">
+                        Erreur type
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="origine" class="form-label">
+                        <i class="bi bi-geo-alt-fill"></i> Origine <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select" 
+                            th:classappend="${#fields.hasErrors('origine')} ? 'is-invalid' : ''"
+                            id="origine" 
+                            th:field="*{origine}"
+                            required>
+                        <option value="">-- Choisir une origine --</option>
+                        <option value="Chine">Chine</option>
+                        <option value="Japon">Japon</option>
+                        <option value="Inde">Inde</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="Taiwan">Taiwan</option>
+                    </select>
+                    <div class="error-message" th:if="${#fields.hasErrors('origine')}" th:errors="*{origine}">
+                        Erreur origine
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="prix" class="form-label">
+                        <i class="bi bi-currency-euro"></i> Prix (€) <span class="text-danger">*</span>
+                    </label>
+                    <input type="number" 
+                           class="form-control" 
+                           th:classappend="${#fields.hasErrors('prix')} ? 'is-invalid' : ''"
+                           id="prix" 
+                           th:field="*{prix}"
+                           step="0.01"
+                           min="5"
+                           max="100"
+                           placeholder="Ex: 25.50"
+                           required>
+                    <small class="form-text text-muted">Prix entre 5,00€ et 100,00€</small>
+                    <div class="error-message" th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}">
+                        Erreur prix
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="quantiteStock" class="form-label">
+                        <i class="bi bi-box-seam"></i> Quantité en stock <span class="text-danger">*</span>
+                    </label>
+                    <input type="number" 
+                           class="form-control" 
+                           th:classappend="${#fields.hasErrors('quantiteStock')} ? 'is-invalid' : ''"
+                           id="quantiteStock" 
+                           th:field="*{quantiteStock}"
+                           min="0"
+                           placeholder="Ex: 50"
+                           required>
+                    <small class="form-text text-muted">Quantité minimale : 0</small>
+                    <div class="error-message" th:if="${#fields.hasErrors('quantiteStock')}" th:errors="*{quantiteStock}">
+                        Erreur quantité
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">
+                        <i class="bi bi-text-paragraph"></i> Description
+                    </label>
+                    <textarea class="form-control" 
+                              th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''"
+                              id="description" 
+                              th:field="*{description}"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="Décrivez les caractéristiques du thé..."></textarea>
+                    <small class="form-text text-muted">Maximum 500 caractères</small>
+                    <div class="error-message" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                        Erreur description
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dateReception" class="form-label">
+                        <i class="bi bi-calendar-event"></i> Date de réception <span class="text-danger">*</span>
+                    </label>
+                    <input type="date" 
+                           class="form-control" 
+                           th:classappend="${#fields.hasErrors('dateReception')} ? 'is-invalid' : ''"
+                           id="dateReception" 
+                           th:field="*{dateReception}"
+                           required>
+                    <small class="form-text text-muted">La date ne peut pas être dans le futur</small>
+                    <div class="error-message" th:if="${#fields.hasErrors('dateReception')}" th:errors="*{dateReception}">
+                        Erreur date
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <a href="/" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Annuler
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle"></i> Enregistrer
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="mt-4 p-3 bg-light rounded">
+                <small class="text-muted">
+                    <i class="bi bi-info-circle"></i> 
+                    Les champs marqués d'un <span class="text-danger">*</span> sont obligatoires
+                </small>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

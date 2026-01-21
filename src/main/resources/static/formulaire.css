@@ -1,0 +1,273 @@
+:root {
+    --tea-green: #7C9473;
+    --tea-dark: #4A5D47;
+    --tea-light: #A8C5A0;
+    --tea-cream: #F5F1E8;
+    --tea-brown: #8B7355;
+    --tea-gold: #C9A961;
+    --shadow-soft: 0 4px 20px rgba(124, 148, 115, 0.15);
+    --shadow-hover: 0 8px 30px rgba(124, 148, 115, 0.25);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #F5F1E8 0%, #E8E2D5 100%);
+    color: #333;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Pattern de fond subtil */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+            repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(124, 148, 115, 0.03) 35px, rgba(124, 148, 115, 0.03) 70px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Header élégant */
+.header-section {
+    background: linear-gradient(135deg, var(--tea-dark) 0%, var(--tea-green) 50%, var(--tea-light) 100%);
+    color: white;
+    padding: 3rem 0;
+    margin-bottom: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 15c-8.284 0-15 6.716-15 15 0 8.284 6.716 15 15 15 8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15zm0 25c-5.523 0-10-4.477-10-10s4.477-10 10-10 10 4.477 10 10-4.477 10-10 10z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.3;
+}
+
+.header-section h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 2.8rem;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.header-section p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* Formulaire container */
+.form-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+    padding: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-label {
+    color: var(--tea-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-label i {
+    color: var(--tea-green);
+    font-size: 1.1rem;
+}
+
+.form-control, .form-select {
+    border: 2px solid #E8E2D5;
+    border-radius: 10px;
+    padding: 0.85rem 1.2rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #FAFAF8;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--tea-green);
+    box-shadow: 0 0 0 4px rgba(124, 148, 115, 0.1);
+    background-color: white;
+    outline: none;
+}
+
+.form-control.is-invalid, .form-select.is-invalid {
+    border-color: #dc3545;
+    background-color: #fff5f5;
+}
+
+.form-control.is-invalid:focus, .form-select.is-invalid:focus {
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.1);
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 500;
+}
+
+.error-message::before {
+    content: '⚠';
+    font-size: 1rem;
+}
+
+.form-text {
+    color: var(--tea-brown);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Boutons */
+.btn {
+    border-radius: 10px;
+    padding: 0.85rem 2rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+}
+
+.btn i {
+    margin-right: 0.5rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--tea-green) 0%, var(--tea-dark) 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--tea-dark) 0%, var(--tea-green) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 148, 115, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(127, 140, 141, 0.3);
+}
+
+/* Info box */
+.bg-light {
+    background: linear-gradient(135deg, var(--tea-cream) 0%, #E8E2D5 100%) !important;
+    border-left: 4px solid var(--tea-green);
+}
+
+.bg-light i {
+    color: var(--tea-green);
+    font-size: 1.1rem;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+    font-weight: 700;
+}
+
+/* Sections de formulaire */
+.mb-3 {
+    margin-bottom: 1.8rem !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-section h1 {
+        font-size: 2rem;
+    }
+
+    .form-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+/* Select custom styling */
+select.form-select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237C9473' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 3rem;
+}
+
+/* Number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+/* Animation pour les champs requis */
+.form-label .text-danger {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
